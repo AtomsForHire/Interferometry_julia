@@ -3,12 +3,20 @@ using Distributions
 using GLMakie
 
 function initialise_sources(N)
-    l = rand(Uniform(-1.0, 1.0), N)
-    m = rand(Uniform(-1.0, 1.0), N)
-    # brightness = rand(Uniform(10.0, 50.0), N)
-    brightness = ones(N)
+    if N == 1
+        l = 0
+        m = 0
+        brightness = 10
 
-    sources = stack([l, m, brightness], dims=1)
+        sources = [l m brightness]'
+    else
+        l = rand(Uniform(-1.0, 1.0), N)
+        m = rand(Uniform(-1.0, 1.0), N)
+        # brightness = rand(Uniform(10.0, 50.0), N)
+        brightness = ones(N)
+
+        sources = stack([l, m, brightness], dims=1)
+    end
     return sources
 end
 
@@ -86,7 +94,7 @@ end
 # BUG: I'm pretty sure something is still wrong here, I think in the calculate_vis function.
 function main()
     baselines = initialise_baselines(1000)
-    sources = initialise_sources(10)
+    sources = initialise_sources(1)
 
     # println("BASELINES")
     # println(display(baselines))
